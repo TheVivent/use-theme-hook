@@ -1,14 +1,15 @@
 {
-  "name": "use-theme",
+  "name": "use-theme-hook",
   "version": "1.0.0",
   "description": "powerfull theming hook",
-  "author": "invalid-email-address",
+  "author": "TheVivent",
   "license": "MIT",
-  "repository": "invalid-email-address/use-theme",
+  "repository": "TheVivent/use-theme-hook",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "jsnext:main": "dist/index.es.js",
+  "private": false,
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -22,7 +23,9 @@
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "use-persisted-state": "^0.3.3"
+  },
   "peerDependencies": {
     "react": "^16.9.0"
   },

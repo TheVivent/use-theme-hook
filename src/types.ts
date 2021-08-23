@@ -1,0 +1,1 @@
+export type SystemTheme = 'light' | 'dark'

@@ -1,13 +1,59 @@
-import React from 'react'
-
-import { useMyHook } from 'use-theme'
+import React from "react";
+import { useState } from "react";
+import useTheme, {
+  useSystemTheme,
+  useCurrentTheme,
+  addTheme,
+  listThemes,
+} from "use-theme";
 
 const App = () => {
-  const example = useMyHook()
+  const [theme, setTheme] = useTheme({
+    additionalThemes: ["pink"],
+    defaultClientTheme: "pink",
+    defaultStorageKey: "test",
+  });
+  const currentTheme = useCurrentTheme();
+  const systemTheme = useSystemTheme();
+
+  const [newThemeName, setNewThemeName] = useState("");
+
+  const handleThemeAddition = () => {
+    addTheme(newThemeName);
+    setNewThemeName("");
+  };
+
   return (
     <div>
-      {example}
+      <div>currentTheme: {currentTheme}</div>
+      <div>systemTheme: {systemTheme}</div>
+      <div>internalTheme: {theme}</div>
+      <div>
+        <select
+          defaultValue={theme}
+          onChange={(e) => {
+            e.preventDefault();
+            setTheme(e.currentTarget.value);
+          }}
+        >
+          {listThemes().map((theme) => (
+            <option key={theme} value={theme}>
+              {theme}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <input
+          type="text"
+          value={newThemeName}
+          onChange={(e) => setNewThemeName(e.currentTarget.value)}
+        />
+        <button type="button" onClick={handleThemeAddition}>
+          Dodaj
+        </button>
+      </div>
     </div>
-  )
-}
-export default App
+  );
+};
+export default App;
