@@ -25,17 +25,17 @@ use-theme-hook comes with three hooks to save the world.
 import useTheme from "use-theme-hook";
 
 const example = () => {
-  // useTheme returns an "internal" theme and setter that ensures that setted theme exist
+  // useTheme returns an "internal" theme and setter that ensures that set theme exists
   const [theme, setTheme] = useTheme();
 
   return (
     <div>
-      {// will change theme to light}
+      {/* will change theme to light*/}
       <button type="button" onClick={() => setTheme("light")}>
         light
       </button>
 
-      {// won't do anything, because pink theme does not exist}
+      {/* won't do anything, because pink theme does not exist*/}
       <button type="button" onClick={() => setTheme("pink")}>
         pink
       </button>
@@ -98,14 +98,19 @@ If useTheme return 'system' useCurrentTheme will return output of useSystemTheme
 ## additional
 
 ```tsx
-import useTheme, { addTheme, listThemes } from "use-theme-hook";
+import useTheme, { addTheme, removeTheme, listThemes } from "use-theme-hook";
 
 const example4 = () => {
   const [theme, setTheme] = useTheme();
   const [newThemeName, setNewThemeName] = useState()
+  const [delThemeName, setDelThemeName] = useState()
 
-  const handleThemeAdd = ()=>{
+  const handleThemeAdd = () => {
     addTheme(newThemeName)
+  }
+
+  const handleThemeRem = () => {
+    removeTheme(delThemeName)
   }
 
   return (
@@ -117,8 +122,18 @@ const example4 = () => {
           </option>
         ))}
       </select>
-      <input type="text" value={newThemeName} onChange={(e)=>setNewThemeName(e.currentTarget.value)}>
-      <button type="button" onClick={handleThemeAdd}>
+
+      {/*adding themes*/}
+      <div>
+        <input type="text" value={newThemeName} onChange={(e)=>setNewThemeName(e.currentTarget.value)}>
+        <button type="button" onClick={handleThemeAdd}>
+      </div>
+
+      {/*removing themes*/}
+      <div>
+        <input type="text" value={newThemeName} onChange={(e)=>setDelThemeName(e.currentTarget.value)}>
+        <button type="button" onClick={handleThemeRem}>
+      </div>
     </div>
   );
 };
@@ -135,11 +150,21 @@ if you want to configure use-theme-hook with useTheme **make sure to use useThem
 > defaultStorageKey - can't be changed after initialization  
 > additionalThemes - you can add other themes, but you cannot remove them
 
+This hook supports SSR. When SSR the hook will use **defaultClientTheme**. If it's value is `system` (default) the light value will be used, but right after everything loads on the client side, it will change to what it should be.
+
 ## TODO
 
 > - code optimazation
 > - tests
-> - removing themes
+> - ~~removing themes~~
+
+## Changelog
+
+```
+1.1.3
+ - fixed bug - if defaultClientTheme is not present in the themes list it is now added to it
+ - added feature - removing themes with removeTheme() - you can't remove 'system', 'light' or 'dark' themes
+```
 
 ## License
 

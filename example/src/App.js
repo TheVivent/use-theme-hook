@@ -5,7 +5,8 @@ import useTheme, {
   useCurrentTheme,
   addTheme,
   listThemes,
-} from "use-theme";
+  removeTheme,
+} from "use-theme-hook";
 
 const App = () => {
   const [theme, setTheme] = useTheme({
@@ -17,10 +18,16 @@ const App = () => {
   const systemTheme = useSystemTheme();
 
   const [newThemeName, setNewThemeName] = useState("");
+  const [delThemeName, setDelThemeName] = useState("");
 
   const handleThemeAddition = () => {
     addTheme(newThemeName);
     setNewThemeName("");
+  };
+
+  const handleThemeRem = () => {
+    removeTheme(delThemeName);
+    setDelThemeName("");
   };
 
   return (
@@ -50,7 +57,17 @@ const App = () => {
           onChange={(e) => setNewThemeName(e.currentTarget.value)}
         />
         <button type="button" onClick={handleThemeAddition}>
-          Dodaj
+          Add
+        </button>
+      </div>
+      <div>
+        <input
+          type="text"
+          value={delThemeName}
+          onChange={(e) => setDelThemeName(e.currentTarget.value)}
+        />
+        <button type="button" onClick={handleThemeRem}>
+          Remove
         </button>
       </div>
     </div>

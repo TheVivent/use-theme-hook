@@ -27,6 +27,9 @@ export default function useTheme({
   // merge default themes with provided ones
   additionalThemes?.forEach((theme) => GLOBAL_THEME_LIST.add(theme));
 
+  if (!GLOBAL_THEME_LIST.has(GLOBAL_DEFAULT_THEME))
+    GLOBAL_THEME_LIST.add(GLOBAL_DEFAULT_THEME);
+
   const [theme, internalSetTheme] = GLOBAL_THEME_STORAGE(GLOBAL_DEFAULT_THEME);
 
   const setTheme = (theme: string) => {
@@ -38,10 +41,15 @@ export default function useTheme({
   return [theme, setTheme];
 }
 
-export function addTheme(theme: string) {
+export function addTheme(theme: string): void {
   GLOBAL_THEME_LIST.add(theme);
 }
 
-export function listThemes() {
+export function removeTheme(theme: string): void {
+  if (["system", "dark", "light"].includes(theme)) return;
+  GLOBAL_THEME_LIST.delete(theme);
+}
+
+export function listThemes(): string[] {
   return Array.from(GLOBAL_THEME_LIST);
 }
